@@ -3,10 +3,7 @@
 #include "HTimer.h"
 #include "HPresolve.h"
 
-#include "HMPSIO.h"
-#ifdef Boost_FOUND
-#include "HMpsFF.h"
-#endif
+#include "filereader/filereader.h"
 
 #include "HToyIO.h"
 
@@ -65,17 +62,11 @@ int HModel::load_fromMPS(const char *filename)
 
   //setup_loadMPS(filename);
   // Here differentiate between parsers!
-#if defined(Boost_FOUND) && !defined(OLD_PARSER)
-  int RtCd = readMPS_FF(filename,
-                     numRow, numCol, objSense, objOffset,
-                     Astart, Aindex, Avalue,
-                     colCost, colLower, colUpper, rowLower, rowUpper);
-#else
-  int RtCd = readMPS(filename, -1, -1,
-                     numRow, numCol, objSense, objOffset,
+
+  Filereader* reader = Filereader::getFilereader(filename);
+  int RtCd = reader->readFile(filename, numRow, numCol, objSense, objOffset,
                      Astart, Aindex, Avalue,
                      colCost, colLower, colUpper, rowLower, rowUpper, integerColumn);
-#endif
 
   if (RtCd)
   {

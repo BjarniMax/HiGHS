@@ -18,6 +18,9 @@ set(sources
     KktChStep.cpp
     HMPSIO.cpp
     HToyIO.cpp
+    filereader/filereader_mps.cpp
+    filereader/filereader_lp.cpp
+    filereader/filereader.cpp
 )
 
 set(headers
@@ -42,6 +45,9 @@ set(headers
     KktChStep.h
     HMPSIO.h
     HMpsFF.h
+    filereader/filereader.h
+    filereader/filereader_mps.h
+    filereader/filereader_lp.h
 )
 
 add_library(libhighs ${sources})
