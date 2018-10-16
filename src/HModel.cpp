@@ -1765,9 +1765,9 @@ void HModel::scaleCosts()
     printf("   Scaling all |cost| > %11.4g by %11.4g\ngrep_LargeCostScale,%g,%g\n", tlLargeCo, largeCostScale, tlLargeCo, largeCostScale);
     for (int iCol = 0; iCol < numCol; iCol++) {if (largeCostFlag[iCol]) {colCost[iCol]/=largeCostScale;}}
   }
-#endif
   printf("After cost scaling\n");
   util_anVecV("Column costs", numCol, colCost, false);
+#endif
 }
 
 void HModel::setup_tightenBound()
@@ -2084,7 +2084,9 @@ void HModel::initScale()
   colScale.assign(numCol, 1);
   rowScale.assign(numRow, 1);
   costScale = 1;
+#ifdef HiGHSDEV
   largeCostScale = 1;
+#endif
 }
 
 void HModel::initBasicIndex()
@@ -4405,6 +4407,7 @@ void HModel::util_reportColMtx(int ncol, vector<int> &XAstart, vector<int> &XAin
   printf("       Start %8d\n", XAstart[ncol]);
 }
 
+#ifdef HiGHSDEV
 void HModel::util_anPrDuDgn()
 {
   double normPrAct = 0;
@@ -4451,6 +4454,7 @@ void HModel::util_anPrDuDgn()
   printf("GrepAnPrDuDgn,%s,%g,%d,%d,%g,%d,%d\n",
          modelName.c_str(), normPrAct, numDgnPrAct, numRow, normDuAct, numDgnDuAct, numCol);
 }
+#endif
 
 void HModel::util_reportModelDa(const char *filename)
 {
